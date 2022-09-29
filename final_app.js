@@ -107,6 +107,53 @@ for (var i = 0; i < scripts.length; i++) {
 }
 
 
+
+function ytproDownVid() {
+    var ytproDown = document.createElement("div");
+    var ytproDownDiv = document.createElement("div");
+    ytproDownDiv.setAttribute("id", "downytprodiv");
+    ytproDown.style.height = "100%";
+    ytproDown.style.width = "100%";
+    ytproDown.style.position = "fixed";
+    ytproDown.style.display = "flex";
+    ytproDown.style.background = "rgba(0,0,0,.7)";
+    ytproDown.style.top = "0";
+    ytproDown.style.left = "0";
+    ytproDown.style.justifyContent = "center";
+    ytproDown.style.alignItems = "center";
+    ytproDown.style.zIndex = "99999999999999";
+    ytproDownDiv.style.height = "auto";
+    ytproDownDiv.style.width = "80%";
+    ytproDownDiv.style.maxHeight = "90%";
+    ytproDownDiv.style.overflow = "scroll";
+    ytproDownDiv.style.background = "rgba(0,0,0,1)";
+    ytproDownDiv.style.justifyContent = "center";
+    ytproDownDiv.style.alignItems = "center";
+    ytproDownDiv.style.zIndex = "99999999999999";
+    ytproDownDiv.style.padding = "20px";
+    ytproDownDiv.style.borderRadius = "5px";
+    ytproDownDiv.style.color = "white";
+    ytproDownDiv.style.textAlign = "center";
+    ytproDownDiv.innerHTML = "<style>#downytprodiv a{text-decoration:none;color:white;} #downytprodiv li{list-style:none;color:#0dd;padding:10px;background:#001;border:1px solid silver;margin:5px;text-align:lft;}</style>";
+    ytproDownDiv.innerHTML += "<span style='position:absolute;top:15px;left:15px;color:red;font-size:30px;' onclick='" + "this.parentElement.parentElement.style.display=" + '"' + "none" + '"' + ";'>&#x2715;</span>Select Avilaible Quality<ul id='listurl'>";
+    document.body.appendChild(ytproDown);
+    ytproDown.appendChild(ytproDownDiv);
+    if ("ytplayer" in window) {
+        for (x in ytplayer.config.args.raw_player_response.streamingData.formats) {
+            if ("signatureCipher" in ytplayer.config.args.raw_player_response.streamingData.formats[x]) {
+                ytproDownDiv.innerHTML += "<li data-ytprotit='" + ytplayer.config.args.title + "'  onclick='YTDownVid(this)'  data-ytprourl='" + ytproGetURL(ytplayer.config.args.raw_player_response.streamingData.formats[x].signatureCipher) + "'>" + (ytplayer.config.args.raw_player_response.streamingData.formats[x].qualityLabel) + "</li>";
+            } else {
+                ytproDownDiv.innerHTML += "<li data-ytprotit='" + ytplayer.config.args.title + "'  onclick='YTDownVid(this)'  data-ytprourl='" + ytplayer.config.args.raw_player_response.streamingData.formats[x].url + "'>" + (ytplayer.config.args.raw_player_response.streamingData.formats[x].qualityLabel) + "</li>";
+            }
+        }
+    } else {
+        alert("AN ERROR OCCURED , PLEASE UPDATE YT PRO");
+    }
+}
+function YTDownVid(o) {
+    Android.downvid((o.getAttribute("data-ytprotit") + ".mp4"), o.getAttribute("data-ytprourl"), navigator.userAgent + "");
+}
+/*THE 0NE AND 0NLY FUNCTION*/
 function pkc() {
     if (window.location.href.indexOf("youtube.com/watch") > -1) {
         /*Dark and Light Mode*/
@@ -144,7 +191,7 @@ function pkc() {
             ytproMainDiv.appendChild(ytproDownVidElem);
             ytproDownVidElem.addEventListener("click",
                 function () {
-                    Android.showdownloads("download");
+                    Android.showDownloads();
                 });
             var ytproPIPVidElem = document.createElement("div");
             ytproPIPVidElem.style.display = "block";
